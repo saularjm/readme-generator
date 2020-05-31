@@ -1,24 +1,30 @@
+// Require npm packages and assign to consts
 const fs = require("fs");
 const axios = require("axios");
 const inquirer = require("inquirer");
 const util = require("util");
 
+// Promisify fs.writeFile
 const writeFileAsync = util.promisify(fs.writeFile);
 
-
+// Function to prompt user in CLI for info to populate README
 function promptUser() {
   
+    // Get GitHub info from user
     return inquirer.prompt({
     message: "Enter your GitHub username:",
     name: "username",
     }).then(function ({ username }) {
 
+        // Create URL for GitHub API call
         const queryUrl = `https://api.github.com/users/${username}`;
 
+        // Use GitHub API to retrieve user info
         axios.get(queryUrl).then(function(userInfo) {
         email = userInfo.data.email;
         picture = userInfo.data.avatar_url;
 
+        // Get README info from user
         inquirer
             .prompt ([
                 {
@@ -62,6 +68,7 @@ function promptUser() {
     })
 }
 
+// Function to create README format
 function generateMarkdown(res) {
 
     return `
@@ -85,10 +92,12 @@ function generateMarkdown(res) {
         ![profile pic](${picture})`;
 }
 
+// Call functions
 promptUser()
     .then(function(answers) {
         const MD = generateMarkdown(answers);
 
+        // Write README file using data retrieved from CLI
         return writeFileAsync("README.md", MD + "\n");
     })
     .then(function() {
