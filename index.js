@@ -11,57 +11,53 @@ const writeFileAsync = util.promisify(fs.writeFile);
 function promptUser() {
   
     // Get GitHub info from user
-    return inquirer.prompt({
-    message: "Enter your GitHub username:",
-    name: "username",
-    }).then(function ({ username }) {
-
-        // Create URL for GitHub API call
-        const queryUrl = `https://api.github.com/users/${username}`;
-
-        // Use GitHub API to retrieve user info
-        axios.get(queryUrl).then(function(userInfo) {
-        email = userInfo.data.email;
-        picture = userInfo.data.avatar_url;
-
-        // Get README info from user
-        inquirer
-            .prompt ([
-                {
-                    message: "What is the title of your project?",
-                    name: "title"
-                },
-                {
-                    message: "What is a brief description of your project?",
-                    name: "description"
-                },
-                {
-                    message: "How is your project installed?",
-                    name: "installation"
-                },
-                {
-                    message: "What will this project be used for?",
-                    name: "usage"
-                },
-                {
-                    message: "Who contributed to this project?",
-                    name: "contributors"
-                },
-                {
-                    message: "What tests were done on this project?",
-                    name: "tests"
-                },
-                {
-                    message: "Which license would you like to use?",
-                    name: "license"
-                }
-            ]);
-        })
-    })
+    return inquirer.prompt([
+        {
+            message: "Enter your GitHub username:",
+            name: "username",
+        },
+        {
+            message: "What is the title of your project?",
+            name: "title"
+        },
+        {
+            message: "What is a brief description of your project?",
+            name: "description"
+        },
+        {
+            message: "How is your project installed?",
+            name: "installation"
+        },
+        {
+            message: "What will this project be used for?",
+            name: "usage"
+        },
+        {
+            message: "Who contributed to this project?",
+            name: "contributors"
+        },
+        {
+            message: "What tests were done on this project?",
+            name: "tests"
+        },
+        {
+            message: "Which license would you like to use?",
+            name: "license"
+        }
+    ]);
 }
 
 // Function to create README format
-function generateMarkdown(res) {
+async function generateMarkdown(res) {
+
+    // Create URL for GitHub API call
+    const queryUrl = `https://api.github.com/users/${res.username}`;
+
+    // Use GitHub API to retrieve user info
+    await axios.get(queryUrl).then(function(userInfo) {
+    email = userInfo.data.email;
+    picture = userInfo.data.avatar_url;
+    })
 
     return `
         # ${res.title} [![ForTheBadge built-with-love](http://ForTheBadge.com/images/badges/built-with-love.svg)](https://GitHub.com/Naereen/)
@@ -91,21 +87,17 @@ function generateMarkdown(res) {
         ![profile pic](${picture})`;
 }
 
-// Function that will run on node index from CLI
-async function init() {
-    console.log("Let's build a README!");
+// Call functions
+promptUser()
+    .then(function(answers) {
+        const MD = generateMarkdown(answers);
 
-    try {
-        const answers = await promptUser();
-        const MD = await generateMarkdown(answers);
-
-        await writeFileAsync("README.md", MD, function() {
-            console.log("Success!");
-        });
-    } catch (err) {
+        // Write README file using data retrieved from CLI
+        return writeFileAsync("README.md", MD);
+    })
+    .then(function() {
+        console.log("Success!");
+    })
+    .catch(function(err) {
         console.log(err);
-    }
-}
-
-// Call function
-init();
+    });
