@@ -44,10 +44,6 @@ function promptUser() {
                     name: "usage"
                 },
                 {
-                    message: "Enter a table of contents:",
-                    name:"contents"
-                },
-                {
                     message: "Who contributed to this project?",
                     name: "contributors"
                 },
@@ -58,10 +54,6 @@ function promptUser() {
                 {
                     message: "Which license would you like to use?",
                     name: "license"
-                },
-                {
-                    message: "Which badge would you like to use?",
-                    name: "badge"
                 }
             ]);
         })
@@ -72,9 +64,16 @@ function promptUser() {
 function generateMarkdown(res) {
 
     return `
-        # ${res.title} ${res.badge} \n
+        # ${res.title} [![ForTheBadge built-with-love](http://ForTheBadge.com/images/badges/built-with-love.svg)](https://GitHub.com/Naereen/)
+        \n
         ## Table of Contents \n
-        - ${res.contents} \n
+        - [Description](#description) \n
+        - [Installation](#Installation) \n
+        - [Usage](#Usage) \n
+        - [Tests](#Tests) \n
+        - [License](#License) \n
+        - [Contributors](#Contributors) \n
+        - [Questions](#Questions) \n
         ## Description \n
         - ${res.description} \n
         ## Installation \n
