@@ -67,31 +67,31 @@ inquirer
 - [Contributors](#Contributors) 
 - [Questions](#Questions)
             
-# Description 
+## Description 
 
 - ${res.description} 
 
-# Installation 
+## Installation 
 
 - ${res.installation}
 
-# Usage
+## Usage
 
 - ${res.usage}
 
-# License
+## License
             
 - ${res.license} 
             
-# Contributors 
+## Contributors 
             
 - ${res.contributors} 
             
-# Tests 
+## Tests 
             
 - ${res.tests} 
             
-# Questions 
+## Questions 
             
 - Email: ${email} 
             
