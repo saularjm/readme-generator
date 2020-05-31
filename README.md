@@ -10,31 +10,31 @@
 - [Contributors](#Contributors) 
 - [Questions](#Questions)
             
-# Description 
+## Description 
 
-- This project creates a README.md file based on info collected from the command line 
+- This project creates README.md files based on user info from the command line 
 
-# Installation 
+## Installation 
 
-- Run index.js with node and follow prompts
+- Run index.js on node and follow the prompts
 
-# Usage
+## Usage
 
 - Creating streamlined READMEs
 
-# License
+## License
             
 - None 
             
-# Contributors 
+## Contributors 
             
-- Saular Moaddeli and https://naereen.github.io/badges/ 
+- Saular Moaddeli 
             
-# Tests 
+## Tests 
             
 - Debugging in VSCode 
             
-# Questions 
+## Questions 
             
 - Email: null 
             
