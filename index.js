@@ -91,18 +91,21 @@ function generateMarkdown(res) {
         ![profile pic](${picture})`;
 }
 
-// Call functions
-promptUser()
-    .then(function(answers) {
-        const MD = generateMarkdown(answers);
+// Function that will run on node index from CLI
+async function init() {
+    console.log("Let's build a README!");
 
-        // Write README file using data retrieved from CLI
-        return writeFileAsync("README.md", MD + "\n");
-    })
-    .then(function() {
-        console.log("Success!");
-    })
-    .catch(function(err) {
+    try {
+        const answers = await promptUser();
+        const MD = await generateMarkdown(answers);
+
+        await writeFileAsync("README.md", MD, function() {
+            console.log("Success!");
+        });
+    } catch (err) {
         console.log(err);
-    });
+    }
+}
 
+// Call function
+init();
