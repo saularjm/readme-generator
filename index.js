@@ -6,17 +6,18 @@ const util = require("util");
 const writeFileAsync = util.promisify(fs.writeFile);
 
 
-inquirer
-  .prompt({
+function promptUser() {
+  
+    return inquirer.prompt({
     message: "Enter your GitHub username:",
     name: "username",
-  })
+    })
 
-  .then(function ({ username }) {
+    .then(function ({ username }) {
 
       const queryUrl = `https://api.github.com/users/${username}`;
 
-      axios.get(queryUrl).then(function(userInfo){
+      axios.get(queryUrl).then(function(userInfo) {
       email = userInfo.data.email;
       picture = userInfo.data.avatar_url;
 
@@ -58,33 +59,43 @@ inquirer
             message: "Which badge would you like to use?",
             name: "badge"
           }
-        ]).then(function(res) {
-          const answers =
-            `# ${res.title} ${res.badge} \n
-            # Description \n
-            ${res.description} \n
-            # Table of Contents \n
-            ${res.contents} \n
-            # Installation \n
-            ${res.installation} \n
-            # Usage \n
-            ${res.usage} \n
-            # License
-            ${res.license} \n
-            # Contributors \n
-            ${res.contributors} \n
-            # Tests \n
-            ${res.tests} \n
-            # Questions \n
-            ${email} \n
-            ![profile image](${picture})`
-          
-          writeFileAsync("README.md", answers + "\n", function(err) {
-            if (err) {
-              return console.log(err);
-            } 
-            console.log("Success!")
-          })
-        })
-      })
- })
+        ]);
+    })
+})
+}
+
+        function generateMarkdown(res) {
+          return `
+            # ${res.title} ${res.badge} \n
+            ## Table of Contents \n
+            - ${res.contents} \n
+            ## Description \n
+            - ${res.description} \n
+            ## Installation \n
+            - ${res.installation} \n
+            ## Usage \n
+            - ${res.usage} \n
+            ## Tests \n
+            - ${res.tests} \n
+            ### License
+            - ${res.license} \n
+            ### Contributors \n
+            - ${res.contributors} \n
+            ### Questions \n
+            - ${email} \n
+            ![profile pic](${picture})`;
+        }
+
+        promptUser()
+  .then(function(answers) {
+    const MD = generateMarkdown(answers);
+
+    return writeFileAsync("README.md", MD + "\n");
+  })
+  .then(function() {
+    console.log("Success!");
+  })
+  .catch(function(err) {
+    console.log(err);
+  });
+
