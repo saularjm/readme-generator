@@ -12,7 +12,7 @@
             
 ## Description 
 
-- This project creates README.md files based on user info from the command line 
+- This project creates README files based on user info from the command line 
 
 ## Installation 
 
