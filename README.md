@@ -21,6 +21,7 @@
 ## Usage
 
 - Creating streamlined READMEs
+- Check out the assets folder for some screenshots of the flow through the app!
 
 ## License
             
