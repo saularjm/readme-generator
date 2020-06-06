@@ -23,7 +23,7 @@
 - Creating streamlined READMEs
 - Check out the assets folder for some screenshots of the flow through the app!
 - Follow this link to see a video of the app usage from start to finish:
-            - https://drive.google.com/file/d/15tEx5K2EBZNI5X0hr1WXCpmneBwsaoN8/view?usp=sharing
+   https://drive.google.com/file/d/15tEx5K2EBZNI5X0hr1WXCpmneBwsaoN8/view?usp=sharing
 
 ## License
             
